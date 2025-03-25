@@ -1,10 +1,14 @@
 import express from "express";
 import { spawn } from "child_process";
 import { parseLegalSectionsResponse } from "../utils/jsonRgxParser.js";
+import { User } from "../model/user.js";
 const router = express.Router();
 
-router.post("/api/v1/user/get-legal-sections", (req, res) => {
-    const { summary } = req.body;
+router.post("/api/v1/user/get-legal-sections", async(req, res) => {
+    const { summary ,phoneNumber} = req.body;
+    await User.findOneAndUpdate({phoneNumber:phoneNumber},{
+        $set:{summary:summary}
+    })
 
     if (!summary) {
         return res.status(400).json({ error: "Summary is required" });

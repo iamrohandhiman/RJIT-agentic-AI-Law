@@ -6,7 +6,7 @@ from phi.model.google import Gemini
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-def callAgent(summary):
+def callAgent(summary,chargesPressed):
     agent = Agent(
         model=Gemini(id="gemini-1.5-flash", api_key="AIzaSyAGFeTbVXzUe1yUTVOn1dxZOPdwsz-fhtc"),
         instructions=(
@@ -24,7 +24,7 @@ def callAgent(summary):
     
     formatted_prompt = f"""
     INCIDENT SUMMARY:
-    {summary}
+    {summary} {chargesPressed} <-are the charges he want to press
     INSTRUCTIONS:
     - Generate three alternative legal timelines, starting from today's date ({today.strftime('%Y-%m-%d')}).
     - Each timeline should be structured as a JSON list under respective timeline categories.
@@ -168,7 +168,8 @@ def callAgent(summary):
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         summary = sys.argv[1]
-        response = callAgent(summary)
+        chargesPressed = sys.argv[2]
+        response = callAgent(summary,chargesPressed)
         print(response)
     else:
         print("No summary provided")

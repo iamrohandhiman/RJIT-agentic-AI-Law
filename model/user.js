@@ -4,7 +4,9 @@ const userSchema = new Schema(
   {
     userName:String,
     phoneNumber:String,
-    Address:String
+    Address:String,
+    summary:String,
+    documentSummary:String
   }
 )
 
