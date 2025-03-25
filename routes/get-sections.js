@@ -5,16 +5,16 @@ import { User } from "../model/user.js";
 const router = express.Router();
 
 router.post("/api/v1/user/get-legal-sections", async(req, res) => {
-    const { summary ,phoneNumber} = req.body;
+    const { summary ,phoneNumber ,documentSummary} = req.body;
     await User.findOneAndUpdate({phoneNumber:phoneNumber},{
-        $set:{summary:summary}
+        $set:{summary:summary , documentSummary:documentSummary}
     })
 
     if (!summary) {
         return res.status(400).json({ error: "Summary is required" });
     }
 
-    const pythonProcess = spawn("python", ["legal_ai.py", summary]);
+    const pythonProcess = spawn("python", ["legal_ai.py", summary,documentSummary]);
 
     let output = "";
 

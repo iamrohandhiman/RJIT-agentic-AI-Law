@@ -3,7 +3,7 @@ import json
 from phi.agent import Agent
 from phi.model.google import Gemini
 
-def callAgent(summary):
+def callAgent(summary,documentSummary):
     agent = Agent(
         model=Gemini(id="gemini-1.5-flash", api_key="AIzaSyAGFeTbVXzUe1yUTVOn1dxZOPdwsz-fhtc"),
         instructions=(f""
@@ -13,7 +13,7 @@ def callAgent(summary):
 
     formatted_prompt = f"""
     INCIDENT SUMMARY:
-    {summary}
+    {summary} and here are the related documents that the user has submitted {documentSummary}
 
     INSTRUCTIONS:
     - Identify and list the most applicable legal sections.
@@ -28,7 +28,8 @@ def callAgent(summary):
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         summary = sys.argv[1]
-        response = callAgent(summary)
+        documentSummary = sys.argv[2]
+        response = callAgent(summary,documentSummary)
         print(response)  
     else:
         print("No summary provided") 

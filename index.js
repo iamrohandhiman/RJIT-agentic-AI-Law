@@ -7,6 +7,8 @@ import { connectDb } from "./utils/db.js"
 import loginRoute from "./routes/login.js"
 import legalSections from "./routes/get-sections.js"
 import getTimeline from "./routes/timeline.js"
+import callevent from "./routes/help-call.js"
+import genDoc from "./generateDoc.js"
 connectDb()
 dotenv.config()
 
@@ -16,6 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
 
+app.use(callevent)
+app.use(genDoc)
 app.use(legalSections)
 app.use(loginRoute)
 app.use(getTimeline)
